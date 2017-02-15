@@ -1,0 +1,6 @@
+{
+  "name": "MFP Proxy",
+  "description": "MyFitnessPal Proxy",
+  "image": "heroku/python",
+  "addons": []
+}
