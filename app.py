@@ -2,6 +2,7 @@ import datetime
 import json
 import logging
 import myfitnesspal
+import redis
 from os import environ as env
 from sys import argv
 from datetime import datetime, date
@@ -39,6 +40,11 @@ def to_json(mfp_data):
     payload = { "date": str(mfp_data.date), "totals": mfp_data.totals }
     return json.dumps(payload)
 
+@route('/ping')
+def ping():
+    logging.info("Pulscheck request")
+    return "pong"
+
 @route('/mfp/<user>/totals/<date>')
 def totals(user, date):
     logging.info("Requesting totals for " + str(date))
@@ -46,7 +52,6 @@ def totals(user, date):
     formatted_date = datetime.strptime(date, "%Y-%m-%d")
     mfp_data = get_mfp_data(user, formatted_date)
     return to_json(mfp_data)
-
 
 ### Connect to MFP
 mfp_client_a = init_mfp_client(username_a, password_a)
